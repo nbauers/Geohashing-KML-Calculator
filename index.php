@@ -1,7 +1,11 @@
 <?php
 
 // -------------------------------------------------------------------------------
-// // Code from and thank you to - http://wiki.xkcd.com/geohashing/User:Eupeodes
+// This code should be run from a PHP enabled web server.
+// -------------------------------------------------------------------------------
+
+// -------------------------------------------------------------------------------
+// Code from and thank you to - http://wiki.xkcd.com/geohashing/User:Eupeodes
 // -------------------------------------------------------------------------------
 
   class calc {
