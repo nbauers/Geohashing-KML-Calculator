@@ -1,23 +1,19 @@
 <?php
-
 // -------------------------------------------------------------------------------
 // This code should be run from a PHP enabled web server.
 // Call up the page with your choice of date, latitude, longitude and skins.
 // Here is a live example ...
 // http://nbest.co.uk/kmlGeohash/index.php?date=2008-05-21&lat=52&lon=0&skins=2
 // -------------------------------------------------------------------------------
-
 // -------------------------------------------------------------------------------
 // Code from and thank you to - http://wiki.xkcd.com/geohashing/User:Eupeodes
 // -------------------------------------------------------------------------------
-
   class calc {
     public function doCalc($date, $dow){
       $md5 = md5($date."-".$dow);
       list($lat, $lng) = str_split($md5, 16);
       return array($this->hex2dec($lat), $this->hex2dec($lng));
     }
-
     private function hex2dec($var){
       $o = 0;
       for($i=0;$i<16;$i++){
@@ -28,17 +24,14 @@
   }
   
 // -------------------------------------------------------------------------------
-
   function validateDate($date)
   {
     $d = DateTime::createFromFormat('Y-m-d', $date);
     return $d && $d->format('Y-m-d') == $date;
   }
-
 // -------------------------------------------------------------------------------
 // Process parameters passed to the web page ...
 // -------------------------------------------------------------------------------
-
   if ((isset($_GET)) && (isset($_GET['lat'])))   $get_lat   = $_GET['lat'];   else $get_lat   = 51;
   if ((isset($_GET)) && (isset($_GET['lon'])))   $get_lon   = $_GET['lon'];   else $get_lon   = 0;
   if ((isset($_GET)) && (isset($_GET['date'])))  $get_date  = $_GET['date'];  else $get_date  = date("Y-m-d");
@@ -61,26 +54,35 @@
   if ($get_lon - $get_skins < -179) $get_lon   = -180 + $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
   
   if (! validateDate($get_date)) $get_date  = "2008-05-21";
-
 // -------------------------------------------------------------------------------
 // Attempt to get the DJIA
 // DJIA from and thank you to - http://wiki.xkcd.com/geohashing/User:Crox
 // -------------------------------------------------------------------------------
 
-  $djia = file_get_contents("http://geo.crox.net/djia/$get_date");
-
-  if (! is_numeric($djia))
-  {
+  function get_http_response_code($url) {
+    $headers = get_headers($url);
+    return substr($headers[0], 9, 3);
+  }
+  
+  if(get_http_response_code("http://geo.crox.net/djia/$get_date") != "200"){
     echo "<h1>No valid DJIA found - Sorry!</h1>";
     exit;
   }
+  else
+  {
+    $djia = file_get_contents("http://geo.crox.net/djia/$get_date");
+
+    if (! is_numeric($djia))
+    {
+      echo "<h1>DJIA \"$djia\" seems to be invalid - Sorry!</h1>";
+      exit;
+    }
+  }
  
   // echo "<p>Debugging: $djia</p>\n";
-
 // -------------------------------------------------------------------------------
 // Get the fractional parts of lat and lon into array index 0 and 1
 // -------------------------------------------------------------------------------
-
   $calc = new calc();
   
   $lat_lon_array = list($lat, $lng) = $calc->doCalc($get_date, $djia);
@@ -88,7 +90,6 @@
 // -------------------------------------------------------------------------------
 // Build the KML file text
 // -------------------------------------------------------------------------------
-
   $kml  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
   $kml .= "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">";
   $kml .= "<Document>";
@@ -146,7 +147,6 @@
   */
   for ($ll = -$get_skins; $ll < ($get_skins + 1);  $ll++) {      // Iterate through latitudes
     for ($oo = -$get_skins; $oo < ($get_skins + 1);  $oo++) {    // Iterate through longitudes
-
       //                                $ll -3, -2, -1,  0,  1,  1,  2     Index
       //                                    -1, -0,  0,  1,  2,  3,  4     Display
       // LATITUDE and LONGITUDE VALUES      -2, -1,  0,  1,  2,  3,  4     Test values
@@ -195,7 +195,6 @@
   }  
   
   //echo "</table><p>Debugging</p>";
-
   $kml .= "</Document>";
   $kml .= "</kml>";
   
@@ -205,15 +204,13 @@
 // -------------------------------------------------------------------------------
 // return the KML file
 // -------------------------------------------------------------------------------
-
   header('Content-type: application/vnd.google-earth.kml+xml');
   header('Content-Disposition: attachment; filename="$get_date.kml"');
   echo $kml;
-
 // -------------------------------------------------------------------------------
-
   // echo "<p>";
   // echo "Debugging: " . htmlentities($kml);
+
   // echo "</p>";
   
 // -------------------------------------------------------------------------------
