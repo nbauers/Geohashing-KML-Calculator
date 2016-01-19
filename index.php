@@ -24,13 +24,21 @@
   }
   
 // -------------------------------------------------------------------------------
-  function validateDate($date)
+  function validateDate($date)  // Retruns true if valid date in yyyy-mm-dd format
   {
     $d = DateTime::createFromFormat('Y-m-d', $date);
     return $d && $d->format('Y-m-d') == $date;
   }
 // -------------------------------------------------------------------------------
-// Process parameters passed to the web page ...
+  function tweekDate($ISO_8601_Date, $days)  // Adds $days to the yyyy-mm-dd date
+  {                                          // New date format is yyyy-mm-dd
+    $date_array = explode("-", $ISO_8601_Date);
+    // print_r($date_array);
+    $newDate    = mktime(0, 0, 0, $date_array[1], $date_array[2] + $days, $date_array[0]);
+    return date('Y-m-d', $newDate);
+  }
+// -------------------------------------------------------------------------------
+// Validate parameters passed to the web page ...
 // -------------------------------------------------------------------------------
   if ((isset($_GET)) && (isset($_GET['lat'])))   $get_lat   = $_GET['lat'];   else $get_lat   = 51;
   if ((isset($_GET)) && (isset($_GET['lon'])))   $get_lon   = $_GET['lon'];   else $get_lon   = 0;
@@ -53,24 +61,34 @@
   if ($get_lon + $get_skins >  179) $get_lon   =  179 - $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
   if ($get_lon - $get_skins < -179) $get_lon   = -180 + $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
   
-  if (! validateDate($get_date)) $get_date  = "2008-05-21";
+  if (! validateDate($get_date)) $get_date     = "2008-05-21";
+
 // -------------------------------------------------------------------------------
 // Attempt to get the DJIA
 // DJIA from and thank you to - http://wiki.xkcd.com/geohashing/User:Crox
 // -------------------------------------------------------------------------------
+
+  if ($get_lon >= 30)
+  {
+    $dow_date = tweekDate($get_date, -1);  // Use yesterday's opening price
+  }
+  else
+  {
+    $dow_date = $get_date;                 // Use today's opening price
+  }
 
   function get_http_response_code($url) {
     $headers = get_headers($url);
     return substr($headers[0], 9, 3);
   }
   
-  if(get_http_response_code("http://geo.crox.net/djia/$get_date") != "200"){
+  if(get_http_response_code("http://geo.crox.net/djia/$dow_date") != "200"){
     echo "<h1>No valid DJIA found - Sorry!</h1>";
     exit;
   }
   else
   {
-    $djia = file_get_contents("http://geo.crox.net/djia/$get_date");
+    $djia = file_get_contents("http://geo.crox.net/djia/$dow_date");
 
     if (! is_numeric($djia))
     {
@@ -132,6 +150,7 @@
   $kml .= "            <styleUrl>#s_ylw-pushpin_hl</styleUrl>";
   $kml .= "        </Pair>";
   $kml .= "    </StyleMap>";
+
   /*
   echo "<table style=\"border-collapse: collapse; border:solid 1px #bbb;\">";                    // Debug only
   echo "<tr>";                                                                                   // Debug only
