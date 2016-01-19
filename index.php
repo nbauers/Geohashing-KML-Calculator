@@ -68,7 +68,7 @@
 // DJIA from and thank you to - http://wiki.xkcd.com/geohashing/User:Crox
 // -------------------------------------------------------------------------------
 
-  if ($get_lon >= 30)
+  if ($get_lon >= -30)
   {
     $dow_date = tweekDate($get_date, -1);  // Use yesterday's opening price
   }
