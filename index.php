@@ -3,7 +3,7 @@
 // This code should be run from a PHP enabled web server.
 // Call up the page with your choice of date, latitude, longitude and skins.
 // Here is a live example ...
-// http://nbest.co.uk/kmlGeohash/index.php?date=2008-05-21&lat=52&lon=0&skins=2
+// http://nbest.co.uk/kmlGeohash/testForm.php
 // -------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------
 // Code from and thank you to - http://wiki.xkcd.com/geohashing/User:Eupeodes
