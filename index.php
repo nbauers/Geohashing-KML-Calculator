@@ -52,20 +52,31 @@
   
   if ($get_lat == "")               $get_lat   =   51;
   if (! is_int($get_lat + 0))       $get_lat   =   51;
-  if ($get_lat < -0)                $get_lat   = $get_lat - 1;
+  if ($get_lat < -89)               $get_lat   =  -89;
+  if ($get_lat >  89)               $get_lat   =   89;
+  if ($get_lat < 0)                 $get_lat   = $get_lat - 1;
   if ($get_lat === "-0")            $get_lat   =   -1;               //                          ##
   if ($get_lat + $get_skins >   89) $get_lat   =   89 - $get_skins;  //  89  88  87  86  85  84  83  82  81  80  79  78  77
   if ($get_lat - $get_skins <  -89) $get_lat   =  -90 + $get_skins;  //  89  88  87  86  85  84  83  82  81  80  79  78  77
   
   if ($get_lon == "")               $get_lon   =    0;
   if (! is_int($get_lon + 0))       $get_lon   =    0;
-  if ($get_lon < -0)                $get_lon   = $get_lon - 1;
+  if ($get_lon < -179)              $get_lon   = -179;
+  if ($get_lon > 179)               $get_lon   =  179;
+  if ($get_lon < 0)                 $get_lon   = $get_lon - 1;
   if ($get_lon === "-0")            $get_lon   =   -1;               //                         ###
   if ($get_lon + $get_skins >  179) $get_lon   =  179 - $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
   if ($get_lon - $get_skins < -179) $get_lon   = -180 + $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
   
+  //echo "<p>Input: $get_date</p>\n";
   if ($get_date == "")              $get_date  = date("Y-m-d");
-  if (! validateDate($get_date))    $get_date  = "2008-05-21";       // The day the algorithm was published
+  //echo "<p>$get_date</p>\n";
+  if (! validateDate($get_date))
+  {
+    if ((is_int($get_date + 0)) && ($get_date >= -7) && ($get_date <= 7)) $get_date = tweekDate(date("Y-m-d"), $get_date); else $get_date = date("Y-m-d");
+    //echo "<p>$get_date</p>\n";
+  }
+  //echo "<p>$get_date</p>\n";
 
 // -------------------------------------------------------------------------------
 // Attempt to get the DJIA
@@ -80,6 +91,7 @@
   {
     $dow_date = $get_date;                 // Use today's opening price
   }
+  //echo "<p>$dow_date</p>\n";
   
   $day = date('D', strtotime($get_date)) . " " . substr ($get_date, 8 );  // 2016-01-20
 
