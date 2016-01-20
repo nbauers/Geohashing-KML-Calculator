@@ -45,23 +45,27 @@
   if ((isset($_GET)) && (isset($_GET['date'])))  $get_date  = $_GET['date'];  else $get_date  = date("Y-m-d");
   if ((isset($_GET)) && (isset($_GET['skins']))) $get_skins = $_GET['skins']; else $get_skins = 1;
   
+  if ($get_skins == "")             $get_skins =    1;
   if (! is_int($get_skins + 0))     $get_skins =    1;
   if ($get_skins > 6)               $get_skins =    6;
   if ($get_skins < 0)               $get_skins =    0;
   
+  if ($get_lat == "")               $get_lat   =   51;
   if (! is_int($get_lat + 0))       $get_lat   =   51;
   if ($get_lat < -0)                $get_lat   = $get_lat - 1;
   if ($get_lat === "-0")            $get_lat   =   -1;               //                          ##
   if ($get_lat + $get_skins >   89) $get_lat   =   89 - $get_skins;  //  89  88  87  86  85  84  83  82  81  80  79  78  77
   if ($get_lat - $get_skins <  -89) $get_lat   =  -90 + $get_skins;  //  89  88  87  86  85  84  83  82  81  80  79  78  77
   
+  if ($get_lon == "")               $get_lon   =    0;
   if (! is_int($get_lon + 0))       $get_lon   =    0;
   if ($get_lon < -0)                $get_lon   = $get_lon - 1;
   if ($get_lon === "-0")            $get_lon   =   -1;               //                         ###
   if ($get_lon + $get_skins >  179) $get_lon   =  179 - $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
   if ($get_lon - $get_skins < -179) $get_lon   = -180 + $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
   
-  if (! validateDate($get_date)) $get_date     = "2008-05-21";
+  if ($get_date == "")              $get_date  = date("Y-m-d");
+  if (! validateDate($get_date))    $get_date  = "2008-05-21";       // The day the algorithm was published
 
 // -------------------------------------------------------------------------------
 // Attempt to get the DJIA
@@ -76,6 +80,8 @@
   {
     $dow_date = $get_date;                 // Use today's opening price
   }
+  
+  $day = date('D', strtotime($get_date)) . " " . substr ($get_date, 8 );  // 2016-01-20
 
   function get_http_response_code($url) {
     $headers = get_headers($url);
@@ -193,8 +199,8 @@
       echo "<tr>";                                                                                  // Debug only
       */
       $kml .= "    <Placemark>";
-      $kml .= "        <name>$grat_lat $grat_lon</name>";
-      $kml .= "           <description><![CDATA[<a href=\"http://wiki.xkcd.com/geohashing/$get_date $grat_lat $grat_lon\">$get_date $grat_lat $grat_lon</a><br><a href=\"http://wiki.xkcd.com/geohashing/$grat_lat,$grat_lon\">Graticule</a><br><a href=\"http://carabiner.peeron.com/xkcd/map/map.html?date=$get_date&lat=$grat_lat&long=$grat_lon&zoom=8\">Peeron</a><br><a href=\"http://geohashing.info/$get_date/s/z:8/$grat_lat,$grat_lon\">geohashing.info</a><br><a href=\"http://www.openstreetmap.org/?mlat=$lat&mlon=$lon&zoom=16\">OSM</a><br><a href=\"http://geo.crox.net/poster/$get_date $grat_lat $grat_lon\">Poster</a><br><a href=\"http://maps.google.com/?ie=UTF8&ll=$lat,$lon&z=8&q=loc:$lat,$lon\">Google Map</a>]]></description>";
+      $kml .= "        <name>$grat_lat $grat_lon $day</name>";
+      $kml .= "           <description><![CDATA[<a href=\"http://wiki.xkcd.com/geohashing/$get_date" . "_" . "$grat_lat" . "_" . "$grat_lon\">$get_date $grat_lat $grat_lon</a><br><a href=\"http://wiki.xkcd.com/geohashing/$grat_lat,$grat_lon\">Graticule</a><br><a href=\"http://carabiner.peeron.com/xkcd/map/map.html?date=$get_date&lat=$grat_lat&long=$grat_lon&zoom=8\">Peeron</a><br><a href=\"http://geohashing.info/$get_date/s/z:8/$grat_lat,$grat_lon\">geohashing.info</a><br><a href=\"http://www.openstreetmap.org/?mlat=$lat&mlon=$lon&zoom=16\">OSM</a><br><a href=\"http://geo.crox.net/poster/$get_date $grat_lat $grat_lon\">Poster</a><br><a href=\"http://maps.google.com/?ie=UTF8&ll=$lat,$lon&z=8&q=loc:$lat,$lon\">Google Map</a>]]></description>";
       $kml .= "        <LookAt>";
       $kml .= "            <longitude>$lon</longitude>";
       $kml .= "            <latitude>$lat</latitude>";
