@@ -1,4 +1,3 @@
-Source Code View
 <?php
 // -------------------------------------------------------------------------------
 // This code should be run from a PHP enabled web server.
@@ -8,7 +7,7 @@ Source Code View
 // -------------------------------------------------------------------------------
 
 // -------------------------------------------------------------------------------
-  if ((isset($_GET)) && (isset($_GET['debug'])) && ($_GET['debug'] != ""))
+  if ((isset($_GET)) && (isset($_GET['debug'])) && ($_GET['debug'] == "debug"))
   {
     $debug = true;
   }
@@ -188,6 +187,13 @@ Source Code View
       $dija_w_found = false;
     }
   }
+  
+  if ((! $dija_w_found) && ($get_lon + $get_skins < -30))  // e.g.  -33 + 6   Show the points east of -30
+  {
+    echo "<h1>No valid DJIA found for $dow_date_e - Sorry!</h1>";
+    exit;
+  }
+  
 // -------------------------------------------------------------------------------
 // Get the fractional parts of lat and lon into array index 0 and 1
 // -------------------------------------------------------------------------------
@@ -333,7 +339,7 @@ Source Code View
                               "<a href=\"http://carabiner.peeron.com/xkcd/map/map.html?date=" . $get_date . "&lat=" . $grat_lat . "&long=" . $grat_lon . "&zoom=8\">Peeron</a><br>" . 
                               "<a href=\"http://www.openstreetmap.org/?mlat=" . $lat . "&mlon=" . $lon . "&zoom=16\">OSM</a><br>" . 
                               "<a href=\"http://maps.google.com/?ie=UTF8&ll=" . $lat . "," . $lon . "&z=8&q=loc:" . $lat . "," . $lon . "\">Google Map</a><br>" . 
-                              "<a href=\"http://bing.com/maps/default.aspx?cp=" . $lat . "~" . $lon . "&lvl=15\">Bing Map</a><br>" . 
+                              "<a href=\"http://bing.com/maps/default.aspx?cp=" . $lat . "~" . $lon . "&lvl=15\">Bing Map (UK OS)</a><br>" . 
                               "]]></description>\n";
         $kml .= "        <LookAt>\n";
         $kml .= "            <longitude>" . $lon . "</longitude>\n";
