@@ -264,7 +264,7 @@
 
   for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
     for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
-	  if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
+      if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
       {
         // -------------------------------------------------------------------------
         //  $yy_lat -3, -2, -1,  0,  1,  2,  3     Iterator Index
@@ -357,7 +357,7 @@
         $kml .= "        </Point>\n";
         $kml .= "    </Placemark>\n";
       }
-	}    // if (((if ($get_lon + $xx_lon < -30) && ($dija_w_found)) || (if ($get_lon + $xx_lon >= 30))
+    }    // if (((if ($get_lon + $xx_lon < -30) && ($dija_w_found)) || (if ($get_lon + $xx_lon >= 30))
   }  
   
   if ($debug) echo "</table>\n";
