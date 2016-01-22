@@ -356,10 +356,10 @@
         $kml .= "            <coordinates>" . $lon . "," . $lat . ",0</coordinates>\n";
         $kml .= "        </Point>\n";
         $kml .= "    </Placemark>\n";
-      }
-    }    // if (((if ($get_lon + $xx_lon < -30) && ($dija_w_found)) || (if ($get_lon + $xx_lon >= 30))
-  }  
-  
+      }    // if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
+    }      // for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
+  }        // for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
+
   if ($debug) echo "</table>\n";
   
   $kml .= "</Document>\n";
