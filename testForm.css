@@ -1,0 +1,23 @@
+/* CSS Document */
+
+a {
+  text-decoration:none;
+}
+
+a:hover {
+  color:#ff0000;
+  background-color:white;
+}
+
+table {
+  border-collapse: collapse;
+  margin-bottom:2px;
+}
+
+td {
+  border-style:solid;
+  border-width: 1px;
+  padding: 4px;
+  border-color: gray;
+  vertical-align:top;
+}
