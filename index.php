@@ -13,6 +13,9 @@
   require_once("html_gen.php");    // html functions
   require_once("kml_gen.php");     // KML functions
 // -----------------------------------------------------------------------------------------
+  $djia_w = false;
+  $djia_w = false;
+// -----------------------------------------------------------------------------------------
   
   // ---------------------------------------------------------------------------------------
   // Validate $_GET
@@ -78,7 +81,7 @@
 
   for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
     for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
-      if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
+      if ((($get_lon + $xx_lon < -30) && ($djia_w)) || ($get_lon + $xx_lon >= -30))
       {
         // -------------------------------------------------------------------------
         //  $yy_lat -3, -2, -1,  0,  1,  2,  3     Iterator Index
