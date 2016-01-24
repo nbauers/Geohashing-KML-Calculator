@@ -117,7 +117,7 @@
     // -------------------------------------------------------------------------------------
     if(get_http_response_code("http://geo.crox.net/djia/$dow_date_e") != "200")
 	{
-      $msg .= "No valid DJIA found for $dow_date_e - Sorry!<br>";
+      $msg .= "$dow_date_e: DJIA not found. Sorry!<br>";
     }
     else
     {
@@ -133,7 +133,7 @@
     // -------------------------------------------------------------------------------------
     if(get_http_response_code("http://geo.crox.net/djia/$dow_date_w") != "200")
 	{
-      $msg .= "No valid DJIA found for $dow_date_w - Sorry!<br>";
+      $msg .= "$dow_date_w: DJIA not found. Sorry!<br>";
     }
     else
     {
