@@ -26,10 +26,12 @@
   // ---------------------------------------------------------------------------------------
   if ($get_debug)
   {
-    html_head();	
-	echo "<pre>" . print_r($_GET, true) . "</pre>\n";
-	echo "<p>\$get_date $get_date<br>\$get_lat $get_lat<br>\$get_lon $get_lon<br>\$get_skins $get_skins<br>\$get_debug $get_debug</p>\n";
-  }	
+    html_head();    
+    echo "<h2>Debug Mode</h2>\n";
+    echo "<hr>\n";
+    echo "<pre>" . print_r($_GET, true) . "</pre>\n";
+    echo "<p>\$get_date $get_date<br>\$get_lat $get_lat<br>\$get_lon $get_lon<br>\$get_skins $get_skins<br>\$get_debug $get_debug</p>\n";
+  }    
   
   // ---------------------------------------------------------------------------------------
   // Get djia values for date and day before - could be null
@@ -39,16 +41,27 @@
   
   if ($get_debug)
   {
-    echo "<p>\n"; 
+    echo "<p>";
     if ($djia_e) echo "\$djia_e = $djia_e<br>\n";
     if ($djia_w) echo "\$djia_w = $djia_w<br>\n";
-	echo "\$msg $msg<br>\n"; 
-	echo "</p>\n";
+    echo "\$msg<br>$msg"; 
+    echo "</p>\n";
   }
   
   if (($djia_w === false) && ($djia_e === false))  // If both djia values are missing ...
   {
-    echo "<h3>$msg</h3>\n";
+    if ($get_debug)
+	{
+      echo "<h3>$msg</h3>";
+	}
+	else
+	{
+      html_head();
+      echo "<h3>$msg</h3>\n\n";
+      html_tail();
+	  
+	  exit;
+	}
   }
   
   // ---------------------------------------------------------------------------------------
@@ -60,104 +73,112 @@
   
   if ($get_debug)
   {
-    if ($djia_e) echo "<p>\$lat_e = $lat_e \$lon_e = $lon_e<br>\n\$lat_w = $lat_w \$lon_w = $lon_w</p>\n";
+    echo "<p>";
+    if ($djia_e) echo "\$lat_e = $lat_e \$lon_e = $lon_e";
+    if ($djia_w) echo "<br>\$lat_w = $lat_w \$lon_w = $lon_w";
+    echo "</p>\n\n";
   }
 
-  $day = date('D', strtotime($get_date)) . " " . substr ($get_date, 8 );  // Get "Tue" or something from 2016-01-20
+  $day    = date('D', strtotime($get_date));      // Get "Mon"    or something similar from 2016-01-25
+  $day_nn = $day . " " . substr ($get_date, 8 );  // Get "Mon 25" or something similar from 2016-01-25
   
-  $kml  = kml_begin($get_date . ".kml");  // kml head section
-  $kml .= kml_style();                    // push pin and styles
-
-  if ($get_debug)
+  $kml = "";
+  
+  if ($djia_e || $djia_w)    // Do the nested for loops ...
   {
-    echo "<table style=\"border-collapse: collapse; border:solid 1px #bbb;\">\n";
-    echo "<tr>\n";
-    echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$grat_lat</td>\n";
-    echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$grat_lon</td>\n";
-    echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$lat</td>\n";
-    echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$lon</td>\n";
-    echo "<tr>\n";
+    if ($get_debug)
+    {
+      echo "<table style=\"border-collapse: collapse; border:solid 1px #bbb;\">\n";
+      echo "  <tr>\n";
+      echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$grat_lat</td>\n";
+      echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$grat_lon</td>\n";
+      echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$lat</td>\n";
+      echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">\$lon</td>\n";
+      echo "  <tr>\n";
+    }
+
+    $kml .= kml_begin($get_date . "_$day.kml");  // kml head section
+    $kml .= kml_style();                    // push pin and styles
+
+    for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
+      for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
+        if ((($get_lon + $xx_lon < -30) && ($djia_w)) || ($get_lon + $xx_lon >= -30))
+        {
+          // -------------------------------------------------------------------------
+          //  $yy_lat -3, -2, -1,  0,  1,  2,  3     Iterator Index
+          //          -2, -1, -0,  0,  1,  2,  3     Graticule name
+          // -------------------------------------------------------------------------
+          if ($get_lon + $xx_lon >= -30)   // Use $lat_e  and $lon_e
+          {
+            if ($get_lat + $yy_lat >= 0)   // North of the equator
+            { 
+              $lat = $get_lat + $yy_lat + $lat_e;
+            }
+            else
+            {
+              $lat = 1 + $get_lat + $yy_lat - $lat_e;
+            }
+  
+            if ($get_lon + $xx_lon >= 0)   // East of the meridian
+            {
+              $lon = $get_lon + $xx_lon + $lon_e;
+            }
+            else
+            {
+              $lon = 1 + $get_lon + $xx_lon - $lon_e;
+            }
+          }
+          else                             // Use $lat_w  and $lon_w
+          {
+            if ($get_lat + $yy_lat >= 0)   // North of the equator
+            { 
+              $lat = $get_lat + $yy_lat + $lat_w;
+            }
+            else
+            {
+              $lat = 1 + $get_lat + $yy_lat - $lat_w;
+            }
+  
+            if ($get_lon + $xx_lon >= 0)   // East of the meridian
+            {
+              $lon = $get_lon + $xx_lon + $lon_w;
+            }
+            else
+            {
+              $lon = 1 + $get_lon + $xx_lon - $lon_w;
+            }
+          }
+          // -------------------------------------------------------------------------
+          if ($get_lat + $yy_lat >=  0) { $grat_lat = $get_lat + $yy_lat; } else { $grat_lat  = 1 + $get_lat + $yy_lat; }
+          if ($get_lat + $yy_lat == -1) { $grat_lat = "-" . $grat_lat; }
+      
+          if ($get_lon + $xx_lon >=  0) { $grat_lon = $get_lon + $xx_lon; } else { $grat_lon  = 1 + $get_lon + $xx_lon; }
+          if ($get_lon + $xx_lon == -1) { $grat_lon = "-" . $grat_lon; }
+          // -------------------------------------------------------------------------
+        
+          if ($get_debug)
+          {
+            echo "  <tr>\n";
+            echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$grat_lat</td>\n";
+            echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$grat_lon</td>\n";
+            echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$lat</td>\n";
+            echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$lon</td>\n";
+            echo "  <tr>\n";
+          }
+  
+          $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);    // kml placemark
+  
+        }    // if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
+      }      // for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
+    }        // for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
+    
+    $kml .= kml_end();    // kml tail section
+    if ($get_debug) echo "</table>\n\n";
   }
 
-  for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
-    for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
-      if ((($get_lon + $xx_lon < -30) && ($djia_w)) || ($get_lon + $xx_lon >= -30))
-      {
-        // -------------------------------------------------------------------------
-        //  $yy_lat -3, -2, -1,  0,  1,  2,  3     Iterator Index
-        //          -2, -1, -0,  0,  1,  2,  3     Graticule name
-        // -------------------------------------------------------------------------
-        if ($get_lon + $xx_lon >= -30)   // Use $lat_e  and $lon_e
-        {
-          if ($get_lat + $yy_lat >= 0)   // North of the equator
-          { 
-            $lat = $get_lat + $yy_lat + $lat_e;
-          }
-          else
-          {
-            $lat = 1 + $get_lat + $yy_lat - $lat_e;
-          }
-
-          if ($get_lon + $xx_lon >= 0)   // East of the meridian
-          {
-            $lon = $get_lon + $xx_lon + $lon_e;
-          }
-          else
-          {
-            $lon = 1 + $get_lon + $xx_lon - $lon_e;
-          }
-        }
-        else                             // Use $lat_w  and $lon_w
-        {
-          if ($get_lat + $yy_lat >= 0)   // North of the equator
-          { 
-            $lat = $get_lat + $yy_lat + $lat_w;
-          }
-          else
-          {
-            $lat = 1 + $get_lat + $yy_lat - $lat_w;
-          }
-
-          if ($get_lon + $xx_lon >= 0)   // East of the meridian
-          {
-            $lon = $get_lon + $xx_lon + $lon_w;
-          }
-          else
-          {
-            $lon = 1 + $get_lon + $xx_lon - $lon_w;
-          }
-        }
-        // -------------------------------------------------------------------------
-        if ($get_lat + $yy_lat >=  0) { $grat_lat = $get_lat + $yy_lat; } else { $grat_lat  = 1 + $get_lat + $yy_lat; }
-        if ($get_lat + $yy_lat == -1) { $grat_lat = "-" . $grat_lat; }
-      
-        if ($get_lon + $xx_lon >=  0) { $grat_lon = $get_lon + $xx_lon; } else { $grat_lon  = 1 + $get_lon + $xx_lon; }
-        if ($get_lon + $xx_lon == -1) { $grat_lon = "-" . $grat_lon; }
-        // -------------------------------------------------------------------------
-      
-        if ($get_debug)
-        {
-          echo "<tr>\n";
-          echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$grat_lat</td>\n";
-          echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$grat_lon</td>\n";
-          echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$lat</td>\n";
-          echo "<td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$lon</td>\n";
-          echo "<tr>\n";
-        }
-
-        $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day);    // kml placemark
-
-      }    // if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
-    }      // for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
-  }        // for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
-
-  if ($get_debug) echo "</table>\n";
-
-  $kml .= kml_end();    // kml tail section
-
   if ($get_debug)
   {
-    echo "<pre>" . str_replace("<", "&lt;", $kml) . "</pre>\n";
+    echo "<pre>KML Data:\n\n" . str_replace("<", "&lt;", $kml) . "</pre>\n\n";
     html_tail();
   }
   else
