@@ -32,7 +32,7 @@
 </head>
 
 <body>
-<h1>KML Geohash Calculator - Please double check results (incomplete testing)</h1>
+<h1>KML Geohash Calculator - Please double check the coordinates. It's been tested but ...</h1>
 <p><img src="Sourcerer%20KML.jpg" alt="KML Calculator" width="494" height="315" /></p>
 <ul>
   <li>This tool works in conjunction with <a href="http://www.google.com/earth/">Google Earth</a> or other applications that understand the KML file format.</li>
