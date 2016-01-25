@@ -178,10 +178,16 @@
           $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);    // kml placemark
           $countPins++;
 
-          if ($grat_lat <= $min_lat) $min_lat = $grat_lat;
-          if ($grat_lon <= $min_lon) $min_lon = $grat_lon;
-          if ($grat_lat >= $max_lat) $max_lat = $grat_lat;
-          if ($grat_lon >= $max_lon) $max_lon = $grat_lon;
+          // -------------------------------------------------------------------------------
+          // mnn: Convert -0 notation to useable coordinates
+          //      1 => 1    0 => 0    -0 => -1    -1 => -2   etc.
+          // -------------------------------------------------------------------------------
+          if (mnn($grat_lat) <= $min_lat) $min_lat = mnn($grat_lat);    // -2  -1  -0   0   1   2   3
+          if (mnn($grat_lon) <= $min_lon) $min_lon = mnn($grat_lon);    // -3  -2  -1   0   1   2   3
+          if (mnn($grat_lat) >= $max_lat) $max_lat = mnn($grat_lat);
+          if (mnn($grat_lon) >= $max_lon) $max_lon = mnn($grat_lon);
+		  if ($get_debug) echo "! " . mnn($grat_lat) . " " . mnn($grat_lon) . "<br>";
+          // -------------------------------------------------------------------------------
 
         }    // if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
       }      // for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
@@ -189,24 +195,18 @@
     // -------------------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------------------
-    // Adjust max and min lat and lon
+    // Draw the grid lines
     // -------------------------------------------------------------------------------------
-	if ($min_lat >= 0) $min_la = $min_lat + 1;
-	if ($max_lat >= 0) $max_la = $max_lat + 1;
-	if ($min_lat < 0)  $min_la = $min_lat;
-	if ($max_lat < 0)  $max_la = $max_lat;
-	
-	if ($min_lon >= 0) $min_lo = $min_lon + 1;
-	if ($max_lon >= 0) $max_lo = $max_lon + 1;
-	if ($min_lon < 0)  $min_lo = $min_lon;
-	if ($max_lon < 0)  $max_lo = $max_lon;
-    // -------------------------------------------------------------------------------------
+  	if ($get_debug) echo "<p>\$min_lat $min_lat<br>" .
+	                        "\$min_lon $min_lon<br>" .
+	                        "\$max_lat $max_lat<br>" .
+							"\$max_lon $max_lon</p>";
     $kill = 0;
-    for ($yy = $min_la - 1; $yy < $max_la + 1;  $yy++) {      // Iterate through latitudes (vertical)
-      for ($xx = $min_lo - 1; $xx < $max_lo + 1;  $xx++) {    // Iterate through longitudes (horizontal)
-        if ($xx < $max_lo) $kml .= kml_grid($xx, $yy, $xx + 1, $yy);    // kml horizontal grid line (lon1,lat1,lon2,lat2)
-        if ($yy < $max_la) $kml .= kml_grid($xx, $yy, $xx, $yy + 1);    // kml vertical   grid line (lon1,lat1,lon2,lat2)
-        if ($get_debug) echo "\$min_l $min_lat \$min_lon $min_lon \$max_l $max_l \$max_lon $max_lon \$xx $xx \$yy $yy<br>\n";
+    for ($yy = $min_lat; $yy < $max_lat + 2;  $yy++) {      // Iterate through latitudes (vertical)
+      for ($xx = $min_lon; $xx < $max_lon + 2;  $xx++) {    // Iterate through longitudes (horizontal)
+        if ($xx < $max_lon + 1) $kml .= kml_grid($xx, $yy, $xx + 1, $yy);    // kml horizontal grid line (lon1,lat1,lon2,lat2)
+        if ($yy < $max_lat + 1) $kml .= kml_grid($xx, $yy, $xx, $yy + 1);    // kml vertical   grid line (lon1,lat1,lon2,lat2)
+    	if ($get_debug) echo "<p>\$xx $xx, \$yy $yy</p>";
         if ($kill++ > 200) break;
       }
     }
