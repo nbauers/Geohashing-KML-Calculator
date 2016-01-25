@@ -51,17 +51,17 @@
   if (($djia_w === false) && ($djia_e === false))  // If both djia values are missing ...
   {
     if ($get_debug)
-	{
+    {
       echo "<h3>$msg</h3>";
-	}
-	else
-	{
+    }
+    else
+    {
       html_head();
       echo "<h3>$msg</h3>\n\n";
       html_tail();
-	  
-	  exit;
-	}
+      
+      exit;
+    }
   }
   
   // ---------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@
     $max_lon = -180;
 
     // -------------------------------------------------------------------------------------
-	// Generate the push pins
+    // Generate the push pins
     // -------------------------------------------------------------------------------------
     for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
       for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
@@ -176,12 +176,12 @@
           }
   
           $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);    // kml placemark
-		  $countPins++;
+          $countPins++;
 
-          if ($grat_lat <= $min_lat) $min_lat = $grat_lat - 1;
-          if ($grat_lon <= $min_lon) $min_lon = $grat_lon - 1;
-          if ($grat_lat >= $max_lat) $max_lat = $grat_lat + 1;
-          if ($grat_lon >= $max_lon) $max_lon = $grat_lon + 1;
+          if ($grat_lat <= $min_lat) $min_lat = $grat_lat;
+          if ($grat_lon <= $min_lon) $min_lon = $grat_lon;
+          if ($grat_lat >= $max_lat) $max_lat = $grat_lat;
+          if ($grat_lon >= $max_lon) $max_lon = $grat_lon;
 
         }    // if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
       }      // for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
@@ -189,34 +189,27 @@
     // -------------------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------------------
-	// Adjust max and min lat and lon
+    // Adjust max and min lat and lon
     // -------------------------------------------------------------------------------------
-    if ($min_lat >= 0) $min_lat++;
-    if ($min_lon >= 0) $min_lon++;
-    if ($max_lat <= 0) $max_lat--;
-    if ($max_lon <= 0) $max_lon--;
+	if ($min_lat >= 0) $min_la = $min_lat + 1;
+	if ($max_lat >= 0) $max_la = $max_lat + 1;
+	if ($min_lat < 0)  $min_la = $min_lat;
+	if ($max_lat < 0)  $max_la = $max_lat;
+	
+	if ($min_lon >= 0) $min_lo = $min_lon + 1;
+	if ($max_lon >= 0) $max_lo = $max_lon + 1;
+	if ($min_lon < 0)  $min_lo = $min_lon;
+	if ($max_lon < 0)  $max_lo = $max_lon;
     // -------------------------------------------------------------------------------------
-
-    // -------------------------------------------------------------------------------------
-	// Generate the horizontal grid lines
-    // -------------------------------------------------------------------------------------
-	$kill = 0;
-    for ($yy = $min_lat; $yy <= $max_lat;  $yy++) {        // Iterate through latitudes (vertical)
-      $kml .= kml_grid($min_lon, $yy, $max_lon, $yy);    // kml vertical grid line (lon1,lat1,lon2,lat2)
-      if ($get_debug) echo "One $min_lat $max_lat $min_lon, $yy, $max_lon, $yy<br>\n";
-	  if ($kill++ > 200) break;
-	}
-    // -------------------------------------------------------------------------------------
-
-    // -------------------------------------------------------------------------------------
-	// Generate the vertical grid lines
-    // -------------------------------------------------------------------------------------
-	$kill = 0;
-    for ($xx = $min_lon; $xx <= $max_lon;  $xx++) {      // Iterate through latitudes (vertical)
-      $kml .= kml_grid($xx, $min_lat, $xx, $max_lat);    // kml vertical grid line (lon1,lat1,lon2,lat2)
-      if ($get_debug) echo "Two $xx, $min_lat, $xx, $max_lat<br>\n";
-	  if ($kill++ > 200) break;
-	}
+    $kill = 0;
+    for ($yy = $min_la - 1; $yy < $max_la + 1;  $yy++) {      // Iterate through latitudes (vertical)
+      for ($xx = $min_lo - 1; $xx < $max_lo + 1;  $xx++) {    // Iterate through longitudes (horizontal)
+        if ($xx < $max_lo) $kml .= kml_grid($xx, $yy, $xx + 1, $yy);    // kml horizontal grid line (lon1,lat1,lon2,lat2)
+        if ($yy < $max_la) $kml .= kml_grid($xx, $yy, $xx, $yy + 1);    // kml vertical   grid line (lon1,lat1,lon2,lat2)
+        if ($get_debug) echo "\$min_l $min_lat \$min_lon $min_lon \$max_l $max_l \$max_lon $max_lon \$xx $xx \$yy $yy<br>\n";
+        if ($kill++ > 200) break;
+      }
+    }
     // -------------------------------------------------------------------------------------
 
     $kml .= kml_end();    // kml tail section
@@ -231,16 +224,16 @@
   else
   {
     if ($countPins > 0)
-	{
+    {
       header('Content-type: application/vnd.google-earth.kml+xml');
       header('Content-Disposition: attachment; filename="$get_date.kml"');
       echo $kml;
-	}
-	else
-	{
+    }
+    else
+    {
       html_head();
       echo "<h3>30W zone - DJIA not available yet.</h3>\n\n";
       html_tail();
-	}
+    }
   }
 ?>
