@@ -6,12 +6,10 @@ a {
 
 a:hover {
   color:#ff0000;
-  background-color:white;
 }
 
 table {
   border-collapse: collapse;
-  margin-bottom:2px;
 }
 
 td {
