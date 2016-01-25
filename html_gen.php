@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>KML Calculator - Debug</title>
+  <title>KML Geohash</title>
 </head>
 
 <body>
