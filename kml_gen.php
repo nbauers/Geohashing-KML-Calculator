@@ -105,7 +105,7 @@
                               "<a href=\"http://carabiner.peeron.com/xkcd/map/map.html?date=" . $get_date . "&lat=" . $grat_lat . "&long=" . $grat_lon . "&zoom=8\">Peeron</a><br>" . 
                               "<a href=\"http://www.openstreetmap.org/?mlat=" . $lat . "&mlon=" . $lon . "&zoom=16\">OSM</a><br>" . 
                               "<a href=\"http://maps.google.com/?ie=UTF8&ll=" . $lat . "," . $lon . "&z=8&q=loc:" . $lat . "," . $lon . "\">Google Map</a><br>" . 
-                              "<a href=\"http://bing.com/maps/default.aspx?cp=" . $lat . "~" . $lon . "&lvl=15&style=s\">Bing Map (UK OS)</a><br>" . 
+                              "<a href=\"http://www.bing.com/maps/?cp=" . $lat . "~" . $lon . "&lvl=15&style=s&sp=point." . $lat . "_" . $lon . "_" . $get_date . " " . $grat_lat . " " . $grat_lon . "\">Bing Map (UK OS)</a><br>" . 
                               "]]></description>\n";
     $kml .= "            <LookAt>\n";
     $kml .= "                <longitude>" . number_format($lon, 6) . "</longitude>\n";
