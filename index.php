@@ -109,6 +109,8 @@
     // -------------------------------------------------------------------------------------
     // Generate the push pins
     // -------------------------------------------------------------------------------------
+    $count = 0;
+	$kml .= kml_folder_start("Pins");
     for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
       for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
         if ((($get_lon + $xx_lon < -30) && ($djia_w)) || ($get_lon + $xx_lon >= -30))
@@ -189,9 +191,11 @@
 		  if ($get_debug) echo "! " . mnn($grat_lat) . " " . mnn($grat_lon) . "<br>";
           // -------------------------------------------------------------------------------
 
+          if ($count++ > 200) break;    // Discourage infinite loops!
         }    // if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
       }      // for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
     }        // for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {    // Iterate through latitudes  (vertical)
+	$kml .= kml_folder_end();
     // -------------------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------------------
@@ -201,15 +205,27 @@
 	                        "\$min_lon $min_lon<br>" .
 	                        "\$max_lat $max_lat<br>" .
 							"\$max_lon $max_lon</p>";
-    $kill = 0;
-    for ($yy = $min_lat; $yy < $max_lat + 2;  $yy++) {      // Iterate through latitudes (vertical)
-      for ($xx = $min_lon; $xx < $max_lon + 2;  $xx++) {    // Iterate through longitudes (horizontal)
-        if ($xx < $max_lon + 1) $kml .= kml_grid($xx, $yy, $xx + 1, $yy);    // kml horizontal grid line (lon1,lat1,lon2,lat2)
-        if ($yy < $max_lat + 1) $kml .= kml_grid($xx, $yy, $xx, $yy + 1);    // kml vertical   grid line (lon1,lat1,lon2,lat2)
+    $count = 0;
+	$kml .= kml_folder_start("Grid");
+    for ($yy = $min_lat; $yy < $max_lat + 2;  $yy++)      // Iterate through latitudes (vertical)
+	{
+      for ($xx = $min_lon; $xx < $max_lon + 2;  $xx++)    // Iterate through longitudes (horizontal)
+	  {
+        if ($xx < $max_lon + 1)
+		{
+		  $kml .= kml_grid($xx, $yy, $xx + 1, $yy, $count);    // kml horizontal grid line (lon1,lat1,lon2,lat2)
+		  $count++;
+		}
+        if ($yy < $max_lat + 1)
+		{
+		  $kml .= kml_grid($xx, $yy, $xx, $yy + 1, $count);    // kml vertical   grid line (lon1,lat1,lon2,lat2)
+		  $count++;
+		}
     	if ($get_debug) echo "<p>\$xx $xx, \$yy $yy</p>";
-        if ($kill++ > 200) break;
+        if ($count > 400) break;    // Discourage infinite loops!
       }
     }
+	$kml .= kml_folder_end();
     // -------------------------------------------------------------------------------------
 
     $kml .= kml_end();    // kml tail section
