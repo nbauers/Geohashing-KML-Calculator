@@ -12,7 +12,8 @@
     $kml .= "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
     $kml .= "<Document>\n";
     $kml .= "    <name>$file_name</name>\n";
-    
+    $kml .= "    <description><![CDATA[This kml data is designed to work with <a href=\"http://www.google.com/earth/\">Google Earth</a>. This needs to be installed on your PC.]]></description>\n";
+
     return $kml;
   }
   //----------------------------------------------------------------------------------------
