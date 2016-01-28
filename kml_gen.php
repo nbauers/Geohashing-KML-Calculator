@@ -6,13 +6,21 @@
   // ---------------------------------------------------------------------------------------
   // Build the KML file beginning text
   // ---------------------------------------------------------------------------------------
-  function kml_begin($file_name)
+  function kml_begin($file_name, $lat, $lon)
   {
     $kml  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     $kml .= "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
     $kml .= "<Document>\n";
     $kml .= "    <name>$file_name</name>\n";
     $kml .= "    <description><![CDATA[This kml data is designed to work with <a href=\"http://www.google.com/earth/\">Google Earth</a>. This needs to be installed on your PC.]]></description>\n";
+    $kml .= "    <LookAt>\n";
+    $kml .= "        <longitude>$lon</longitude>\n";
+    $kml .= "        <latitude>$lat</latitude>\n";
+    $kml .= "        <altitude>0</altitude>\n";
+    $kml .= "        <heading>0</heading>\n";
+    $kml .= "        <tilt>0</tilt>\n";
+    $kml .= "        <range>1000</range>\n";
+    $kml .= "    </LookAt>\n";
 
     return $kml;
   }
