@@ -98,8 +98,8 @@
       echo "  <tr>\n";
     }
 
-    $kml .= kml_begin($get_date . "_$day.kml");  // kml head section
-    $kml .= kml_style();                         // push pin and styles
+ // $kml_head  = kml_begin($get_date . "_$day.kml", $lat, $lon);    // It's more convenient to get this inside the nested loop below
+    $kml      .= kml_style();                                       // push pin and styles
 
     $min_lat =   90;
     $min_lon =  180;
@@ -176,8 +176,9 @@
             echo "    <td style=\"border-style:solid; border:solid 1px #bbb; padding:2px;\">$lon</td>\n";
             echo "  <tr>\n";
           }
-  
-          $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);    // kml placemark
+
+		  if (($yy_lat == 0) && ($xx_lon == 0)) $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon);  // kml head section
+          $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);                       // kml placemark
           $countPins++;
 
           // -------------------------------------------------------------------------------
@@ -228,7 +229,9 @@
 	$kml .= kml_folder_end();
     // -------------------------------------------------------------------------------------
 
-    $kml .= kml_end();    // kml tail section
+    $kml .= kml_end();         // kml tail section
+	$kml  = $kml_head . $kml;  // prepend the head section
+	
     if ($get_debug) echo "</table>\n\n";
   }
 
