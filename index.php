@@ -111,7 +111,7 @@
     // Generate the push pins
     // -------------------------------------------------------------------------------------
     $count = 0;
-	$kml .= kml_folder_start("Pins");
+    $kml .= kml_folder_start("Pins");
     for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {      // Iterate through latitudes  (vertical)
       for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
         if ((($get_lon + $xx_lon < -30) && ($djia_w)) || ($get_lon + $xx_lon >= -30))
@@ -178,7 +178,8 @@
             echo "  <tr>\n";
           }
 
-		  if (($yy_lat == 0) && ($xx_lon == 0)) $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon);  // kml head section
+          if (($yy_lat == 0) && ($xx_lon == 0)) $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon);  // kml head section
+
           $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);                       // kml placemark
           $countPins++;
 
@@ -190,7 +191,7 @@
           if (mnn($grat_lon) <= $min_lon) $min_lon = mnn($grat_lon);    // -3  -2  -1   0   1   2   3
           if (mnn($grat_lat) >= $max_lat) $max_lat = mnn($grat_lat);
           if (mnn($grat_lon) >= $max_lon) $max_lon = mnn($grat_lon);
-		  if ($get_debug) echo "! " . mnn($grat_lat) . " " . mnn($grat_lon) . "<br>";
+          if ($get_debug) echo "! " . mnn($grat_lat) . " " . mnn($grat_lon) . "<br>";
           // -------------------------------------------------------------------------------
 
           if ($count++ > 200) break;    // Discourage infinite loops!
@@ -200,55 +201,56 @@
     // -------------------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------------------
-	// GLOBAL HASH
+    // GLOBAL HASH
     // -------------------------------------------------------------------------------------
     if ($djia_e)
-	{
-	  $kml .= kml_globalmark($get_date, $lat_g, $lon_g, $day_nn);    // kml global placemark
-	}
+    {
+      $kml .= kml_globalmark($get_date, $lat_g, $lon_g, $day_nn);    // kml global placemark
+    }
     // -------------------------------------------------------------------------------------
-	
-	$kml .= kml_folder_end();
+    
+    $kml .= kml_folder_end();
 
     // -------------------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------------------
     // Draw the grid lines
     // -------------------------------------------------------------------------------------
-  	if ($get_debug) echo "<p>\$min_lat $min_lat<br>" .
-	                        "\$min_lon $min_lon<br>" .
-	                        "\$max_lat $max_lat<br>" .
-							"\$max_lon $max_lon</p>";
+      if ($get_debug) echo "<p>\$min_lat $min_lat<br>" .
+                            "\$min_lon $min_lon<br>" .
+                            "\$max_lat $max_lat<br>" .
+                            "\$max_lon $max_lon</p>";
     $count = 0;
-	$kml .= kml_folder_start("Grid");
+    $kml .= kml_folder_start("Grid");
     for ($yy = $min_lat; $yy < $max_lat + 2;  $yy++)      // Iterate through latitudes (vertical)
-	{
+    {
       for ($xx = $min_lon; $xx < $max_lon + 2;  $xx++)    // Iterate through longitudes (horizontal)
-	  {
+      {
         if ($xx < $max_lon + 1)
-		{
-		  $kml .= kml_grid($xx, $yy, $xx + 1, $yy, $count);    // kml horizontal grid line (lon1,lat1,lon2,lat2)
-		  $count++;
-		}
+        {
+          $kml .= kml_grid($xx, $yy, $xx + 1, $yy, $count);    // kml horizontal grid line (lon1,lat1,lon2,lat2)
+          $count++;
+        }
         if ($yy < $max_lat + 1)
-		{
-		  $kml .= kml_grid($xx, $yy, $xx, $yy + 1, $count);    // kml vertical   grid line (lon1,lat1,lon2,lat2)
-		  $count++;
-		}
-    	if ($get_debug) echo "<p>\$xx $xx, \$yy $yy</p>";
+        {
+          $kml .= kml_grid($xx, $yy, $xx, $yy + 1, $count);    // kml vertical   grid line (lon1,lat1,lon2,lat2)
+          $count++;
+        }
+        if ($get_debug) echo "<p>\$xx $xx, \$yy $yy</p>";
         if ($count > 400) break;    // Discourage infinite loops!
       }
     }
     // -------------------------------------------------------------------------------------
 
-	$kml .= kml_folder_end();
+    $kml .= kml_folder_end();
 
     $kml .= kml_end();         // kml tail section
-	$kml  = $kml_head . $kml;  // prepend the head section
-	
+    $kml  = $kml_head . $kml;  // prepend the head section
+    
     if ($get_debug) echo "</table>\n\n";
   }
 
+  // ---------------------------------------------------------------------------------------
   if ($get_debug)
   {
     echo "<pre>KML Data:\n\n" . str_replace("<", "&lt;", $kml) . "</pre>\n\n";
@@ -269,4 +271,7 @@
       html_tail();
     }
   }
+  // ---------------------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------------
 ?>
