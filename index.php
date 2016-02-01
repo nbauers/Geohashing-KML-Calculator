@@ -67,15 +67,16 @@
   // ---------------------------------------------------------------------------------------
   // Get coordinates for east and west of 30W
   // ---------------------------------------------------------------------------------------
-  if ($djia_e) list($lat_e, $lon_e) = get_coords($get_date, $djia_e);
-  if ($djia_w) list($lat_w, $lon_w) = get_coords($get_date, $djia_w);
+  if ($djia_e) list($lat_e, $lon_e) = get_coords($get_date, $djia_e, $get_debug);
+  if ($djia_e) list($lat_g, $lon_g) = get_global($get_date, $djia_e, $get_debug);
+  if ($djia_w) list($lat_w, $lon_w) = get_coords($get_date, $djia_w, $get_debug);
   // ---------------------------------------------------------------------------------------
   
   if ($get_debug)
   {
     echo "<p>";
     if ($djia_e) echo "\$lat_e = $lat_e \$lon_e = $lon_e";
-    if ($djia_w) echo "<br>\$lat_w = $lat_w \$lon_w = $lon_w";
+    if ($djia_w) echo "<br>\$lat_w = $lat_w \$lon_w = $lon_w<br><br>\$lat_g = $lat_g \$lon_g = $lon_g";
     echo "</p>\n\n";
   }
 
@@ -196,7 +197,19 @@
         }    // if ((($get_lon + $xx_lon < -30) && ($dija_w_found)) || ($get_lon + $xx_lon >= -30))
       }      // for ($xx_lon = -$get_skins; $xx_lon < ($get_skins + 1);  $xx_lon++) {    // Iterate through longitudes (horizontal)
     }        // for ($yy_lat = -$get_skins; $yy_lat < ($get_skins + 1);  $yy_lat++) {    // Iterate through latitudes  (vertical)
+    // -------------------------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------------------
+	// GLOBAL HASH
+    // -------------------------------------------------------------------------------------
+    if ($djia_e)
+	{
+	  $kml .= kml_globalmark($get_date, $lat_g, $lon_g, $day_nn);    // kml global placemark
+	}
+    // -------------------------------------------------------------------------------------
+	
 	$kml .= kml_folder_end();
+
     // -------------------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------------------
@@ -226,8 +239,9 @@
         if ($count > 400) break;    // Discourage infinite loops!
       }
     }
-	$kml .= kml_folder_end();
     // -------------------------------------------------------------------------------------
+
+	$kml .= kml_folder_end();
 
     $kml .= kml_end();         // kml tail section
 	$kml  = $kml_head . $kml;  // prepend the head section
