@@ -9,9 +9,9 @@
   // ---------------------------------------------------------------------------------------
   function mnn($latlon)
   {
-	     if ($latlon === "-0") return -1;
+         if ($latlon === "-0") return -1;
     else if ($latlon >= 0)     return $latlon;
-	else if ($latlon < 0)      return $latlon - 1;
+    else if ($latlon < 0)      return $latlon - 1;
   }
   // ---------------------------------------------------------------------------------------
 
@@ -110,8 +110,8 @@
   {
     $djia_e = false;
     $djia_w = false;
-	$msg    = "";
-	
+    $msg    = "";
+    
     if ($date >= "2008-05-27")                   // The day of the algorithm change
     {
       $dow_date_e = tweekDate($date, -1);        // Use yesterday's opening price
@@ -128,7 +128,7 @@
     // Get data east of -30
     // -------------------------------------------------------------------------------------
     if(get_http_response_code("http://geo.crox.net/djia/$dow_date_e") != "200")
-	{
+    {
       $msg .= "$dow_date_e: DJIA not found. Sorry!<br>";
     }
     else
@@ -144,7 +144,7 @@
     // Get data west of -30
     // -------------------------------------------------------------------------------------
     if(get_http_response_code("http://geo.crox.net/djia/$dow_date_w") != "200")
-	{
+    {
       $msg .= "$dow_date_w: DJIA not found. Sorry!<br>";
     }
     else
@@ -169,7 +169,7 @@
   {
     $o = 0;
     for($i = 0;  $i < 16;  $i++)
-	{
+    {
       $o += hexdec($var[$i]) * pow(16, -$i -1);
     }
     return $o;
@@ -183,13 +183,13 @@
   function get_coords($date, $djia, $debug = false)
   {
     $md5 = md5($date."-".$djia);
-	list($lat, $lon) = str_split($md5, 16);
-	
-	$latlon = array(hex2dec($lat), hex2dec($lon));
-	
+    list($lat, $lon) = str_split($md5, 16);
+    
+    $latlon = array(hex2dec($lat), hex2dec($lon));
+    
     if ($debug) echo "<pre>local:\n" . print_r($latlon, true) . "</pre>\n";
 
-	return $latlon;
+    return $latlon;
   }
   // ---------------------------------------------------------------------------------------
 
@@ -202,18 +202,18 @@
   function get_global($date, $djia, $debug = false)
   {
     $md5 = md5($date."-".$djia);
-	list($lat, $lon) = str_split($md5, 16);
-	
-	$latlon = array(hex2dec($lat), hex2dec($lon));
+    list($lat, $lon) = str_split($md5, 16);
+    
+    $latlon = array(hex2dec($lat), hex2dec($lon));
 
     if ($debug) echo "<pre>local:\n" . print_r($latlon, true) . "</pre>\n";
-	
-	$latlon[0] = $latlon[0] * 180 -  90;
-	$latlon[1] = $latlon[1] * 360 - 180;
-	
+    
+    $latlon[0] = $latlon[0] * 180 -  90;
+    $latlon[1] = $latlon[1] * 360 - 180;
+    
     if ($debug) echo "<pre>global:\n" . print_r($latlon, true) . "</pre>\n";
 
-	return $latlon;
+    return $latlon;
   }
   // ---------------------------------------------------------------------------------------
 
