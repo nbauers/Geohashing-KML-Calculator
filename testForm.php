@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 
-  <title>Geohash KML Calculator</title>
+  <title>Geohashing KML Calculator</title>
   <link href="testForm.css" rel="stylesheet" type="text/css">
 <script>
   // -------------------------------------------------------------
@@ -32,12 +32,15 @@
 </head>
 
 <body>
-<h1> Geohash KML Calculator - Please double check the coordinates. It's been tested but ...</h1>
-<p><img src="Sourcerer%20KML.jpg" alt="KML Calculator" width="494" height="315" /></p>
+<h1> Geohashing KML Calculator</h1>
+<p><img src="Sourcerer%20KML.jpg" alt="KML Calculator" width="498" height="320" /></p>
 <ul>
-  <li>This tool works in conjunction with <a href="http://www.google.com/earth/">Google Earth</a> or other applications that understand the KML file format.</li>
+  <li>This tool works in conjunction with KML aware applications like  <a href="http://www.google.com/earth/">Google Earth</a> and <a href="https://marble.kde.org/">Marble</a>.</li>
   <li>When you submit the form, if your PC is correctly set up, Google Earth will launch and show the calculated hashpoints.</li>
-  <li>Or you can pass some URL parameters like this <a href="http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-01&amp;lat=52&amp;lon=0&amp;skins=1">http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-01&amp;lat=52&amp;lon=0&amp;skins=1</a></li>
+  <li>This seems to work on Android mobile phones and perhaps others too.</li>
+  <li>UK geohashers might  find the link to the Ordnance Survey maps particularly useful. Outside the UK you just get the normal Bing maps.</li>
+  <li>Use this form or make a bookmark or shortcut - like this <a href="http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-01&amp;lat=52&amp;lon=0&amp;skins=1">http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-01&amp;lat=52&amp;lon=0&amp;skins=1</a></li>
+  <li>For the <strong>Globalhash</strong>, zoom out until it comes into view.</li>
 </ul>
 <form action="index.php" id="kmlForm">
 <table>
@@ -68,6 +71,7 @@
 <tr><td> </td><td style="text-align:center;"><p><input type="submit" name="Submit" id="Submit" value="Submit"></p></td><td><span id="f_url"></spanp></td></tr>
 </table>
 </form>
+<p><strong>Disclaimer:</strong> Do no damage. Don't disturb people, animals or the environment. Stay safe!</p>
 <p><a href="http://wiki.xkcd.com/geohashing/User:Sourcerer/KML_tool">Geohashing Wiki</a> - <a href="https://github.com/nbauers/Geohashing-KML-Calculator">Code on GitHub</a> - <a href="source.php">Calculator Live Source</a></p>
 </body>
 </html>
