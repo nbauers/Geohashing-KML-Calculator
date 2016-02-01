@@ -180,14 +180,42 @@
   // Input a date and return an array containing the fractional lat and lon values
   // This code is based on - http://wiki.xkcd.com/geohashing/User:Eupeodes - Thanks!
   // ---------------------------------------------------------------------------------------
-  function get_coords($date, $djia)
+  function get_coords($date, $djia, $debug = false)
   {
     $md5 = md5($date."-".$djia);
 	list($lat, $lon) = str_split($md5, 16);
 	
-	return array(hex2dec($lat), hex2dec($lon));
+	$latlon = array(hex2dec($lat), hex2dec($lon));
+	
+    if ($debug) echo "<pre>local:\n" . print_r($latlon, true) . "</pre>\n";
+
+	return $latlon;
   }
   // ---------------------------------------------------------------------------------------
-  
+
+  // ---------------------------------------------------------------------------------------
+  // To generate this point take W30 decimals for a date (to make it global).
+  // Multiply the latitude by 180 and subtract 90
+  // Multiply the longitude by 360 subtracting 180.
+  // This will return a single point on the globe which is today's only globalhash.
+  // ---------------------------------------------------------------------------------------
+  function get_global($date, $djia, $debug = false)
+  {
+    $md5 = md5($date."-".$djia);
+	list($lat, $lon) = str_split($md5, 16);
+	
+	$latlon = array(hex2dec($lat), hex2dec($lon));
+
+    if ($debug) echo "<pre>local:\n" . print_r($latlon, true) . "</pre>\n";
+	
+	$latlon[0] = $latlon[0] * 180 -  90;
+	$latlon[1] = $latlon[1] * 360 - 180;
+	
+    if ($debug) echo "<pre>global:\n" . print_r($latlon, true) . "</pre>\n";
+
+	return $latlon;
+  }
+  // ---------------------------------------------------------------------------------------
+
 // -----------------------------------------------------------------------------------------
 ?>
