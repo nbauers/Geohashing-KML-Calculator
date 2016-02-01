@@ -136,7 +136,7 @@
   // ---------------------------------------------------------------------------------------
   
   // ---------------------------------------------------------------------------------------
-  // Build a KML global placemark          http://wiki.xkcd.com/geohashing/2012-02-26_global
+  // Build a KML global placemark
   // ---------------------------------------------------------------------------------------
   function kml_globalmark($get_date, $lat_g, $lon_g, $day)
   {
@@ -146,6 +146,7 @@
                               number_format($lat_g, 6) . " " . number_format($lon_g, 6) . "<br>" .
                               "<a href=\"http://wiki.xkcd.com/geohashing/" . $get_date . "_global\">" . $get_date . " global</a><br>" . 
                               "<a href=\"http://wiki.xkcd.com/geohashing/Global\">Globalhash</a><br>" . 
+                              "<a href=\"http://geo.crox.net/poster/" . $get_date . "_global\">Poster</a><br>" . 
                               "<a href=\"http://www.openstreetmap.org/?mlat=" . $lat_g . "&mlon=" . $lon_g . "&zoom=16\">OSM</a><br>" . 
                               "<a href=\"http://maps.google.com/?ie=UTF8&ll=" . $lat_g . "," . $lon_g . "&z=8&q=loc:" . $lat_g . "," . $lon_g . "\">Google Map</a><br>" . 
                               "<a href=\"http://www.bing.com/maps/?cp=" . $lat_g . "~" . $lon_g . "&lvl=15&style=s&sp=point." . $lat_g . "_" . $lon_g . "_" . $get_date . " global\">Bing Map (UK OS)</a><br>" . 
