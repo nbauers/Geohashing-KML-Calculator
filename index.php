@@ -20,7 +20,8 @@
   // ---------------------------------------------------------------------------------------
   // Validate $_GET
   // ---------------------------------------------------------------------------------------
-  extract(clean_up_get_params($_GET));
+  $clean_get = clean_up_get_params($_GET);
+  extract($clean_get);
   // ---------------------------------------------------------------------------------------
 
   // ---------------------------------------------------------------------------------------
@@ -29,7 +30,8 @@
     html_head();    
     echo "<h2>Debug Mode</h2>\n";
     echo "<hr>\n";
-    echo "<pre>" . print_r($_GET, true) . "</pre>\n";
+    echo "<pre>\$_GET\n"      . print_r($_GET, true)      . "</pre>\n";
+    echo "<pre>\$clean_get\n" . print_r($clean_get, true) . "</pre>\n";
     echo "<p>\$get_date $get_date<br>\$get_lat $get_lat<br>\$get_lon $get_lon<br>\$get_skins $get_skins<br>\$get_debug $get_debug</p>\n";
   }    
   
@@ -178,7 +180,17 @@
             echo "  <tr>\n";
           }
 
-          if (($yy_lat == 0) && ($xx_lon == 0)) $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon);  // kml head section
+          if (($yy_lat == 0) && ($xx_lon == 0))
+		  {
+		    if (($get_clat != "") && ($get_clon != ""))
+			{
+			  $kml_head = kml_begin($get_date . "_$day.kml", $get_clat, $get_clon, 150000);  // kml head section
+			}
+			else
+			{
+			  $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon, 1000);              // kml head section
+			}
+		  }
 
           $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);                       // kml placemark
           $countPins++;
