@@ -12,6 +12,8 @@
     var f_date  = document.forms["kmlForm"]["f_date"].value;
     var f_lat   = document.forms["kmlForm"]["f_lat"].value;
     var f_lon   = document.forms["kmlForm"]["f_lon"].value;
+    var f_clat  = document.forms["kmlForm"]["f_clat"].value;
+    var f_clon  = document.forms["kmlForm"]["f_clon"].value;
     var f_skins = document.forms["kmlForm"]["f_skins"].value;
     var f_debug = "";
 
@@ -21,7 +23,21 @@
       f_debug = "";
     }
     
-    var f_url = "<pre><a href=\"http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date + "&lat=" + f_lat + "&lon=" + f_lon + "&skins=" + f_skins + "&debug=" + f_debug + "\">http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date + "&lat=" + f_lat + "&lon=" + f_lon + "&skins=" + f_skins + "&debug=" + f_debug + "</a></pre>";
+    var f_url = "<pre><a href=\"http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date;
+	    f_url = f_url + "&lat=" + f_lat;
+		f_url = f_url + "&lon=" + f_lon;
+		f_url = f_url + "&clat=" + f_clat;
+		f_url = f_url + "&clon=" + f_clon;
+		f_url = f_url + "&skins=" + f_skins;
+		f_url = f_url + "&debug=" + f_debug;
+		f_url = f_url + "\">http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date;
+		f_url = f_url + "&lat=" + f_lat;
+		f_url = f_url + "&lon=" + f_lon ;
+		f_url = f_url + "&clat=" + f_clat;
+		f_url = f_url + "&clon=" + f_clon;
+		f_url = f_url + "&skins=" + f_skins;
+		f_url = f_url + "&debug=" + f_debug;
+		f_url = f_url + "</a></pre>";
     
     // console.log(f_url);
     
@@ -39,7 +55,9 @@
   <li>When you submit the form, if your PC is correctly set up, Google Earth will launch and show the calculated hashpoints.</li>
   <li>This seems to work on Android mobile phones and perhaps others too.</li>
   <li>UK geohashers might  find the link to the Ordnance Survey maps particularly useful. Outside the UK you just get the normal Bing maps.</li>
-  <li>Use this form or make a bookmark or shortcut - like this <a href="http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-01&amp;lat=52&amp;lon=0&amp;skins=1">http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-01&amp;lat=52&amp;lon=0&amp;skins=1</a></li>
+  <li>Use this form or make a bookmark or shortcut - like this<br>
+    <a href="http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-31&lat=52&lon=-1&clat=52.5&clon=1.5&skins=3">http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-31&lat=52&lon=-1&clat=52.5&clon=1.5&skins=3</a>
+  </li>
   <li>For the <strong>Globalhash</strong>, zoom out until it comes into view.</li>
 </ul>
 <form action="index.php" id="kmlForm">
@@ -52,12 +70,22 @@
   <tr>
     <td style="text-align:center;"><strong>lat</strong></td>
     <td><input name="lat" type="text" id="f_lat" size="12" maxlength="4" onKeyUp="urlGen()"></td>
-    <td><strong>Latitude: -89 to 89</strong> - if blank, the latitude defaults to  51 (Grenwich).</td>
+    <td><strong>Latitude: -89 to 89</strong> - if blank, the latitude defaults to  51 (Grenwich). Whole numbers please.</td>
   </tr>
   <tr>
     <td style="text-align:center;"><strong>lon</strong></td>
     <td><input name="lon" type="text" id="f_lon" size="12" maxlength="4" onKeyUp="urlGen()"></td>
-    <td><strong>Longitude: -179 to 179</strong> - if blank, the longitude defaults to  0 (Grenwich meridian).</td>
+    <td><strong>Longitude: -179 to 179</strong> - if blank, the longitude defaults to  0 (Grenwich meridian). Whole numbers please.</td>
+  </tr>
+  <tr>
+    <td style="text-align:center;"><strong>clat</strong></td>
+    <td><input name="clat" type="text" id="f_clat" size="12" maxlength="4" onKeyUp="urlGen()"></td>
+    <td><strong>Centre Latitude: -89 to 89</strong> - optional view centre. It's OK to leave this blank.
+  </tr>
+  <tr>
+    <td style="text-align:center;"><strong>clon</strong></td>
+    <td><input name="clon" type="text" id="f_clon" size="12" maxlength="4" onKeyUp="urlGen()"></td>
+    <td><strong>Centre Longitude: -179 to 179</strong> -  - optional view centre. It's OK to leave this blank.
   </tr>
   <tr>
     <td style="text-align:center;"><strong>skins</strong></td>
