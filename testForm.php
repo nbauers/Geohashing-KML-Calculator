@@ -24,20 +24,20 @@
     }
     
     var f_url = "<pre><a href=\"http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date;
-	    f_url = f_url + "&lat=" + f_lat;
-		f_url = f_url + "&lon=" + f_lon;
-		f_url = f_url + "&clat=" + f_clat;
-		f_url = f_url + "&clon=" + f_clon;
-		f_url = f_url + "&skins=" + f_skins;
-		f_url = f_url + "&debug=" + f_debug;
-		f_url = f_url + "\">http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date;
-		f_url = f_url + "&lat=" + f_lat;
-		f_url = f_url + "&lon=" + f_lon ;
-		f_url = f_url + "&clat=" + f_clat;
-		f_url = f_url + "&clon=" + f_clon;
-		f_url = f_url + "&skins=" + f_skins;
-		f_url = f_url + "&debug=" + f_debug;
-		f_url = f_url + "</a></pre>";
+        f_url = f_url + "&lat=" + f_lat;
+        f_url = f_url + "&lon=" + f_lon;
+        f_url = f_url + "&clat=" + f_clat;
+        f_url = f_url + "&clon=" + f_clon;
+        f_url = f_url + "&skins=" + f_skins;
+        f_url = f_url + "&debug=" + f_debug;
+        f_url = f_url + "\">http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date;
+        f_url = f_url + "&lat=" + f_lat;
+        f_url = f_url + "&lon=" + f_lon ;
+        f_url = f_url + "&clat=" + f_clat;
+        f_url = f_url + "&clon=" + f_clon;
+        f_url = f_url + "&skins=" + f_skins;
+        f_url = f_url + "&debug=" + f_debug;
+        f_url = f_url + "</a></pre>";
     
     // console.log(f_url);
     
