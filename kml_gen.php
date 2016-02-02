@@ -6,7 +6,7 @@
   // ---------------------------------------------------------------------------------------
   // Build the KML file beginning text
   // ---------------------------------------------------------------------------------------
-  function kml_begin($file_name, $lat, $lon)
+  function kml_begin($file_name, $lat, $lon, $range = 1000)
   {
     $kml  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     $kml .= "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
@@ -19,7 +19,7 @@
     $kml .= "        <altitude>0</altitude>\n";
     $kml .= "        <heading>0</heading>\n";
     $kml .= "        <tilt>0</tilt>\n";
-    $kml .= "        <range>1000</range>\n";
+    $kml .= "        <range>" . $range . "</range>\n";
     $kml .= "    </LookAt>\n";
 
     return $kml;
