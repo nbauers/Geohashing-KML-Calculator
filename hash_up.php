@@ -45,6 +45,8 @@
   {
     if (isset($_get['lat']))   $get_lat   = $_get['lat'];   else $get_lat   = 51;
     if (isset($_get['lon']))   $get_lon   = $_get['lon'];   else $get_lon   =  0;
+    if (isset($_get['clat']))  $get_clat  = $_get['clat'];  else $get_clat  = "";
+    if (isset($_get['clon']))  $get_clon  = $_get['clon'];  else $get_clon  = "";
     if (isset($_get['date']))  $get_date  = $_get['date'];  else $get_date  = date("Y-m-d");
     if (isset($_get['skins'])) $get_skins = $_get['skins']; else $get_skins =  1;
     if (isset($_get['debug'])) { if ($_get['debug'] =="debug") { $get_debug = true; } else { $get_debug = false; } } else { $get_debug = false; }
@@ -58,6 +60,8 @@
     if ($get_skins < 0)               $get_skins =    0;
   
     // -------------------------------------------------------------------------------------
+    // LATITUDE and LONGITUDE INTEGERS
+    // -------------------------------------------------------------------------------------
     // $get_lat default and range check
     // -------------------------------------------------------------------------------------
     if ($get_lat == "")               $get_lat   =   51;
@@ -66,6 +70,7 @@
     if ($get_lat === "-0")            $get_lat   =   -1;               //                          ##
     if ($get_lat + $get_skins >   89) $get_lat   =   89 - $get_skins;  //  89  88  87  86  85  84  83  82  81  80  79  78  77
     if ($get_lat - $get_skins <  -89) $get_lat   =  -90 + $get_skins;  //  89  88  87  86  85  84  83  82  81  80  79  78  77
+    // -------------------------------------------------------------------------------------
   
     // -------------------------------------------------------------------------------------
     // $get_lon default and range check
@@ -76,6 +81,29 @@
     if ($get_lon === "-0")            $get_lon   =   -1;               //                         ###
     if ($get_lon + $get_skins >  179) $get_lon   =  179 - $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
     if ($get_lon - $get_skins < -179) $get_lon   = -180 + $get_skins;  // 179 178 177 176 175 174 173 172 171 170 169 168 167
+    // -------------------------------------------------------------------------------------
+  
+    // -------------------------------------------------------------------------------------
+    // VIEW CENTERING LATITUDE and LONGITUDE REAL NUMBERS
+    // -------------------------------------------------------------------------------------
+    // $get_clat default and range check
+    // -------------------------------------------------------------------------------------
+	if (! is_numeric($get_clat + 0)) $get_clat = "";
+    if ($get_clat < 0)               $get_clat = $get_clat - 1;
+    if ($get_clat === "-0")          $get_clat =   -1;
+    if ($get_clat >  89.9999)        $get_clat =  89.9999;
+    if ($get_clat < -89.9999)        $get_clat = -89.9999;
+    // -------------------------------------------------------------------------------------
+  
+    // -------------------------------------------------------------------------------------
+    // $get_clon default and range check
+    // -------------------------------------------------------------------------------------
+	if (! is_numeric($get_clon + 0)) $get_clon = "";
+    if ($get_clon < 0)               $get_clon = $get_clon - 1;
+    if ($get_clon === "-0")          $get_clon =   -1;
+    if ($get_clon >  179.9999)       $get_clon =  179.9999;
+    if ($get_clon < -179.9999)       $get_clon = -179.9999;
+    // -------------------------------------------------------------------------------------
   
     // -------------------------------------------------------------------------------------
     // $get_date default and validate
@@ -86,7 +114,7 @@
       if ((is_int($get_date + 0)) && ($get_date >= -7) && ($get_date <= 7)) $get_date = tweekDate(date("Y-m-d"), $get_date); else $get_date = date("Y-m-d");
     }
 
-    $return_array = array("get_date" => $get_date, "get_lat" => $get_lat, "get_lon" => $get_lon, "get_skins" => $get_skins, "get_debug" => $get_debug);
+    $return_array = array("get_date" => $get_date, "get_lat" => $get_lat, "get_lon" => $get_lon, "get_clat" => $get_clat, "get_clon" => $get_clon, "get_skins" => $get_skins, "get_debug" => $get_debug);
 
     return $return_array;
   }
