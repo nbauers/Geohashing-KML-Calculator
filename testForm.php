@@ -80,13 +80,11 @@
   <tr>
     <td style="text-align:center;"><strong>clat</strong></td>
     <td><input name="clat" type="text" id="f_clat" size="12" maxlength="4" onKeyUp="urlGen()"></td>
-    <td><strong>Centre Latitude: -89 to 89</strong> - optional view centre. It's OK to leave this blank.
-  </tr>
+    <td><strong>Centre Latitude: -89.9999 to 89.9999</strong> - optional view centre. It's OK to leave this blank.  </tr>
   <tr>
     <td style="text-align:center;"><strong>clon</strong></td>
     <td><input name="clon" type="text" id="f_clon" size="12" maxlength="4" onKeyUp="urlGen()"></td>
-    <td><strong>Centre Longitude: -179 to 179</strong> -  - optional view centre. It's OK to leave this blank.
-  </tr>
+    <td><strong>Centre Longitude: -179.9999 to 179.9999</strong> -  - optional view centre. It's OK to leave this blank.  </tr>
   <tr>
     <td style="text-align:center;"><strong>skins</strong></td>
     <td><input name="skins" type="text" id="f_skins" size="12" maxlength="1" onKeyUp="urlGen()"></td>
