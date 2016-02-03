@@ -12,7 +12,7 @@
     $kml .= "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
     $kml .= "<Document>\n";
     $kml .= "    <name>$file_name</name>\n";
-    $kml .= "    <description><![CDATA[This kml data is designed to work with <a href=\"http://www.google.com/earth/\">Google Earth</a>. This needs to be installed on your PC.]]></description>\n";
+    $kml .= "    <description><![CDATA[This data is designed to work with KML aware applications like <a href=\"http://www.google.com/earth/\">Google Earth</a> or <a href=\"https://marble.kde.org/\">Marble</a>. This needs to be installed on your PC or device.]]></description>\n";
     $kml .= "    <LookAt>\n";
     $kml .= "        <longitude>$lon</longitude>\n";
     $kml .= "        <latitude>$lat</latitude>\n";
