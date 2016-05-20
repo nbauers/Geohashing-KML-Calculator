@@ -157,7 +157,7 @@
     $kml .= "                <altitude>0</altitude>\n";
     $kml .= "                <heading>0</heading>\n";
     $kml .= "                <tilt>0</tilt>\n";
-    $kml .= "                <range>1000</range>\n";
+    $kml .= "                <range>4000000</range>\n";
   //$kml .= "                <gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>\n";
     $kml .= "            </LookAt>\n";
     $kml .= "            <styleUrl>#m_ylw-pushpin</styleUrl>\n";
