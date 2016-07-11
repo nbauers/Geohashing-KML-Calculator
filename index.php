@@ -101,7 +101,7 @@
       echo "  <tr>\n";
     }
 
- // $kml_head  = kml_begin($get_date . "_$day.kml", $lat, $lon);    // It's more convenient to get this inside the nested loop below
+    $kml_head  = "";    // $kml_head  = kml_begin($get_date . "_$day.kml", $lat, $lon);    // It's more convenient to get this inside the nested loop below
     $kml      .= kml_style();                                       // push pin and styles
 
     $min_lat =   90;
@@ -133,7 +133,7 @@
           //  $yy_lat -3, -2, -1,  0,  1,  2,  3     Iterator Index
           //          -2, -1, -0,  0,  1,  2,  3     Graticule name
           // -------------------------------------------------------------------------
-          if ($get_lon + $xx_lon >= -30)   // Use $lat_e  and $lon_e
+          if ($get_lon + $xx_lon >= -30)   // Use $lat_e and $lon_e
           {
             if ($get_lat + $yy_lat >= 0)   // North of the equator
             { 
@@ -202,6 +202,8 @@
               $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon, 1000);              // kml head section
             }
           }
+		  
+  		  if ($kml_head == "") $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon, 1000);
 
           $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);                       // kml placemark
           $countPins++;
