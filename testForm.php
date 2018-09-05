@@ -49,7 +49,7 @@
 
 <body>
 <h1> Geohashing KML Calculator</h1>
-<p><img src="Sourcerer%20KML.jpg" alt="KML Calculator" width="498" height="320" /></p>
+<p><img src="Sourcerer%20KML.jpg" alt="KML Calculator" width="615" height="451" /></p>
 <ul>
   <li>This tool works in conjunction with KML aware applications like  <a href="http://www.google.com/earth/">Google Earth</a> and <a href="https://marble.kde.org/">Marble</a>.</li>
   <li>When you submit the form, if your PC is correctly set up, Google Earth will launch and show the calculated hashpoints.</li>
