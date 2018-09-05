@@ -4,10 +4,10 @@
 // Call up the page with your choice of date, latitude, longitude, skins and debug mode
 //
 // There is an input form ...
-// http://nbest.co.uk/kmlGeohash/testForm.php
+// https://nbest.co.uk/kmlGeohash/testForm.php
 //
 // Or call the calculator page directly - all the parameters have default values if omitted
-// http://nbest.co.uk/kmlGeohash/index.php?date=2015-12-12&lat=52&lon=-0&skins=2&debug=debug
+// https://nbest.co.uk/kmlGeohash/index.php?date=2015-12-12&lat=52&lon=-0&skins=2&debug=debug
 // -----------------------------------------------------------------------------------------
   require_once("hash_up.php");     // Geohashing functions
   require_once("html_gen.php");    // html functions
@@ -15,8 +15,9 @@
 // -----------------------------------------------------------------------------------------
   $djia_e = false;
   $djia_w = false;
+  $msg    = "";
 // -----------------------------------------------------------------------------------------
-  
+
   // ---------------------------------------------------------------------------------------
   // Validate $_GET
   // ---------------------------------------------------------------------------------------
@@ -24,32 +25,38 @@
   extract($clean_get);
   // ---------------------------------------------------------------------------------------
 
+  // ==== FAIL FAIL FAIL FAIL FAIL FAIL FAIL FAIL FAIL FAIL FAIL FAIL FAIL ====
+  //html_head();
+  //echo "<p>This Geohashing KML Calculator is on the blink. I'm working on a fix. 2018-02-02</p>";
+  //echo "<p>http://carabiner.peeron.com/xkcd/map/data/yyyy-mm-dd seems yo be refusung connections.</p>";
+  //html_tail();
+  //exit;
+  // ==========================================================================
+
   // ---------------------------------------------------------------------------------------
   if ($get_debug)
   {
-    html_head();    
-    echo "<h2>Debug Mode</h2>\n";
+  	html_head();
+  	echo "<h2>Debug Mode</h2>\n";
     echo "<hr>\n";
     echo "<pre>\$_GET\n"      . print_r($_GET, true)      . "</pre>\n";
     echo "<pre>\$clean_get\n" . print_r($clean_get, true) . "</pre>\n";
     echo "<p>\$get_date $get_date<br>\$get_lat $get_lat<br>\$get_lon $get_lon<br>\$get_skins $get_skins<br>\$get_debug $get_debug</p>\n";
-  }    
-  
+  }
   // ---------------------------------------------------------------------------------------
   // Get djia values for date and day before - could be null
   // ---------------------------------------------------------------------------------------
   list($djia_e, $djia_w, $msg) = get_djias($get_date, $get_debug);
   // ---------------------------------------------------------------------------------------
-  
   if ($get_debug)
   {
     echo "<p>";
     if ($djia_e) echo "\$djia_e = $djia_e<br>\n";
     if ($djia_w) echo "\$djia_w = $djia_w<br>\n";
-    echo "\$msg<br>$msg"; 
+    echo "\$msg: $msg";
     echo "</p>\n";
   }
-  
+
   if (($djia_w === false) && ($djia_e === false))  // If both djia values are missing ...
   {
     if ($get_debug)
@@ -61,11 +68,11 @@
       html_head();
       echo "<h3>$msg</h3>\n\n";
       html_tail();
-      
+
       exit;
     }
   }
-  
+
   // ---------------------------------------------------------------------------------------
   // Get coordinates for east and west of 30W
   // ---------------------------------------------------------------------------------------
@@ -73,7 +80,7 @@
   if ($djia_e) list($lat_g, $lon_g) = get_global($get_date, $djia_e, $get_debug);
   if ($djia_w) list($lat_w, $lon_w) = get_coords($get_date, $djia_w, $get_debug);
   // ---------------------------------------------------------------------------------------
-  
+
   if ($get_debug)
   {
     echo "<p>";
@@ -84,10 +91,10 @@
 
   $day    = date('D', strtotime($get_date));      // Get "Mon"    or something similar from 2016-01-25
   $day_nn = $day . " " . substr ($get_date, 8 );  // Get "Mon 25" or something similar from 2016-01-25
-  
+
   $kml       = "";
   $countPins = 0;
-  
+
   if ($djia_e || $djia_w)    // Do the nested for loops ...
   {
     if ($get_debug)
@@ -119,7 +126,7 @@
       $kml .= kml_folder_end();
     }
     // -------------------------------------------------------------------------------------
-    
+
     // -------------------------------------------------------------------------------------
     // Generate the local push pins
     // -------------------------------------------------------------------------------------
@@ -136,14 +143,14 @@
           if ($get_lon + $xx_lon >= -30)   // Use $lat_e and $lon_e
           {
             if ($get_lat + $yy_lat >= 0)   // North of the equator
-            { 
+            {
               $lat = $get_lat + $yy_lat + $lat_e;
             }
             else
             {
               $lat = 1 + $get_lat + $yy_lat - $lat_e;
             }
-  
+
             if ($get_lon + $xx_lon >= 0)   // East of the meridian
             {
               $lon = $get_lon + $xx_lon + $lon_e;
@@ -156,14 +163,14 @@
           else                             // Use $lat_w  and $lon_w
           {
             if ($get_lat + $yy_lat >= 0)   // North of the equator
-            { 
+            {
               $lat = $get_lat + $yy_lat + $lat_w;
             }
             else
             {
               $lat = 1 + $get_lat + $yy_lat - $lat_w;
             }
-  
+
             if ($get_lon + $xx_lon >= 0)   // East of the meridian
             {
               $lon = $get_lon + $xx_lon + $lon_w;
@@ -176,11 +183,11 @@
           // -------------------------------------------------------------------------
           if ($get_lat + $yy_lat >=  0) { $grat_lat = $get_lat + $yy_lat; } else { $grat_lat  = 1 + $get_lat + $yy_lat; }
           if ($get_lat + $yy_lat == -1) { $grat_lat = "-" . $grat_lat; }
-      
+
           if ($get_lon + $xx_lon >=  0) { $grat_lon = $get_lon + $xx_lon; } else { $grat_lon  = 1 + $get_lon + $xx_lon; }
           if ($get_lon + $xx_lon == -1) { $grat_lon = "-" . $grat_lon; }
           // -------------------------------------------------------------------------
-        
+
           if ($get_debug)
           {
             echo "  <tr>\n";
@@ -195,15 +202,15 @@
           {
             if (($get_clat != "") && ($get_clon != ""))
             {
-              $kml_head = kml_begin($get_date . "_$day.kml", $get_clat, $get_clon, 150000);  // kml head section
+              $kml_head = kml_begin($get_date . "_" . $day . "_" . round($lat_g) . "_" . round($lon_g) . ".kml", $get_clat, $get_clon, 150000);  // kml head section
             }
             else
             {
-              $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon, 1000);              // kml head section
+              $kml_head = kml_begin($get_date . "_" . $day . "_" . round($lat_g) . "_" . round($lon_g) . ".kml", $lat, $lon, 1000);              // kml head section
             }
           }
-		  
-  		  if ($kml_head == "") $kml_head = kml_begin($get_date . "_$day.kml", $lat, $lon, 1000);
+
+  		  if ($kml_head == "") $kml_head = kml_begin($get_date . "_" . $day . "_" . round($lat_g) . "_" . round($lon_g) . ".kml", $lat, $lon, 1000);
 
           $kml .= kml_placemark($get_date, $grat_lat, $grat_lon, $lat, $lon, $day_nn);                       // kml placemark
           $countPins++;
@@ -262,7 +269,7 @@
 
     $kml .= kml_end();         // kml tail section
     $kml  = $kml_head . $kml;  // prepend the head section
-    
+
     if ($get_debug) echo "</table>\n\n";
   }
 
@@ -277,7 +284,7 @@
     if ($countPins > 0)
     {
       header('Content-type: application/vnd.google-earth.kml+xml');
-      header('Content-Disposition: attachment; filename="$get_date.kml"');
+      header("Content-Disposition: attachment; filename=\"" . $get_date . "_" . $day . "_" . round($lat_g) . "_" . round($lon_g) . ".kml");  
       echo $kml;
     }
     else
