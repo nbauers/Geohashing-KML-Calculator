@@ -56,7 +56,7 @@
   <li>This seems to work on Android mobile phones and perhaps others too.</li>
   <li>UK geohashers might  find the link to the Ordnance Survey maps particularly useful. Outside the UK you just get the normal Bing maps.</li>
   <li>Use this form or make a bookmark or shortcut - like this<br>
-    <a href="http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-31&lat=52&lon=-1&clat=52.5&clon=1.5&skins=3">http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-31&lat=52&lon=-1&clat=52.5&clon=1.5&skins=3</a>
+    <a href="https://nbest.co.uk/kmlGeohash/index.php?date=2016-01-31&lat=52&lon=-1&clat=52.5&clon=1.5&skins=3">https://nbest.co.uk/kmlGeohash/index.php?date=2016-01-31&lat=52&lon=-1&clat=52.5&clon=1.5&skins=3</a>
   </li>
   <li>For the <strong>Globalhash</strong>, zoom out until it comes into view.</li>
 </ul>
