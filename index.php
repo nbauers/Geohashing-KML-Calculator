@@ -57,15 +57,15 @@
   <tr>
     <td> </td>
     <td style="text-align:center;"><p><input type="submit" name="Submit" id="Submit" value="Submit"></p></td>
-    <td><span id="f_url"></spanp></td>
+    <td><span id="f_url"></span></td>
   </tr>
 </table>
 </form>
 <p><strong>Disclaimer:</strong> Do no damage. Don't disturb people, animals or the environment. Stay safe!</p>
-<p><a href="http://wiki.xkcd.com/geohashing/User:Sourcerer/KML_tool">Geohashing Wiki</a> - <a href="https://github.com/nbauers/Geohashing-KML-Calculator">Code on GitHub</a> - <a href="source.php">Calculator Live Source</a></p>
+<p><a href="https://wiki.xkcd.com/geohashing/User:Sourcerer/KML_tool">Geohashing Wiki</a> - <a href="https://github.com/nbauers/Geohashing-KML-Calculator">Code on GitHub</a> - <a href="source.php">Calculator Live Source</a></p>
 <script>
   // -------------------------------------------------------------
-  // http://nbest.co.uk/kmlGeohash/index.php?date=2016-01-01&lat=52&lon=0&skins=1
+  // https://nbest.co.uk/kmlGeohash/calculator.php?date=2016-01-01&lat=52&lon=0&skins=1
   function urlGen() {
     var f_date  = document.forms["kmlForm"]["f_date"].value;
     var f_lat   = document.forms["kmlForm"]["f_lat"].value;
@@ -81,14 +81,14 @@
       f_debug = "";
     }
     
-    var f_url = "<pre><a href=\"http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date;
+    var f_url = "<pre><a href=\"https://nbest.co.uk/kmlGeohash/calculator.php?date=" + f_date;
         f_url = f_url + "&lat=" + f_lat;
         f_url = f_url + "&lon=" + f_lon;
         f_url = f_url + "&clat=" + f_clat;
         f_url = f_url + "&clon=" + f_clon;
         f_url = f_url + "&skins=" + f_skins;
         f_url = f_url + "&debug=" + f_debug;
-        f_url = f_url + "\">http://nbest.co.uk/kmlGeohash/index.php?date=" + f_date;
+        f_url = f_url + "\">https://nbest.co.uk/kmlGeohash/calculator.php?date=" + f_date;
         f_url = f_url + "&lat=" + f_lat;
         f_url = f_url + "&lon=" + f_lon ;
         f_url = f_url + "&clat=" + f_clat;
